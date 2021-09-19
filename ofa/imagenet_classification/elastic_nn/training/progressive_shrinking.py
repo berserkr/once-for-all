@@ -77,6 +77,7 @@ def validate(run_manager, epoch=0, is_test=False, image_size_list=None,
 
 
 def train_one_epoch(run_manager, args, epoch, warmup_epochs=0, warmup_lr=0):
+	et = time.time()
 	dynamic_net = run_manager.network
 	distributed = isinstance(run_manager, DistributedRunManager)
 
@@ -166,6 +167,9 @@ def train_one_epoch(run_manager, args, epoch, warmup_epochs=0, warmup_lr=0):
 			})
 			t.update(1)
 			end = time.time()
+
+	val_log = f'Epoch:\t{epoch}\tTime:\t{time.time() - end}'
+	run_manager.write_log(val_log, 'valid')
 	return losses.avg.item(), run_manager.get_metric_vals(metric_dict)
 
 
