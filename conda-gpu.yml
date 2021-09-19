@@ -29,5 +29,7 @@ dependencies:
     - PyYaml
     - tqdm
     - thop
-    - horovod
+    - horovod==0.19.*
     - -e .
+    - --no-binary=horovod
+
